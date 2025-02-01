@@ -21,19 +21,21 @@ public class HttpServer {
   public void start() {
     try (ServerSocket serverSocket = new ServerSocket(port)) {
       System.out.println("Server started on port " + port);
-      while (true) {
-        try {
+      try {
+        while (true) {
           Socket socket = serverSocket.accept();
           System.out.println("Accepted connection from " + socket.getRemoteSocketAddress());
           executor.execute(() -> {
             try {
               byte[] buffer = new byte[8192];
               int n = socket.getInputStream().read(buffer);
-              String rawRequest = (n < 0) ? "" : new String(buffer, 0, n);
-              HttpRequest request = new HttpRequest(rawRequest);
-              System.out.println(Thread.currentThread().getName() + ": ");
-              request.info(false);
-              dispatcher.execute(request, socket.getOutputStream());
+              if (n > 0) {
+                String rawRequest = new String(buffer, 0, n);
+                HttpRequest request = new HttpRequest(rawRequest);
+                System.out.println(Thread.currentThread().getName() + ": ");
+                request.info(false);
+                dispatcher.execute(request, socket.getOutputStream());
+              }
             } catch (IOException e) {
               e.printStackTrace();
             } finally {
@@ -43,15 +45,18 @@ public class HttpServer {
                 e.printStackTrace();
               }
             }
+
           });
-        } catch (IOException e) {
-          e.printStackTrace();
-        } finally {
-          executor.shutdown();
         }
+      } catch (IOException e) {
+        e.printStackTrace();
+      } finally {
+        executor.shutdown();
       }
+
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 }
+
