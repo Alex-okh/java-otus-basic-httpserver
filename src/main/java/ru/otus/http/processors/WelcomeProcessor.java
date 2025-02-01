@@ -11,7 +11,7 @@ public class WelcomeProcessor implements RequestProcessor {
   public void process(HttpRequest request, OutputStream output) throws IOException {
     String response = """
                   HTTP/1.1 200 OK
-                  "Content-Type: text/html
+                  Content-Type: text/html
                    
                    <html>
                       <body>
