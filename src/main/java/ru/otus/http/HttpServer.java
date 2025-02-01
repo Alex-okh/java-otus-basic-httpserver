@@ -12,7 +12,6 @@ public class HttpServer {
   private final ExecutorService executor;
 
 
-
   public HttpServer(int port) {
     this.port = port;
     dispatcher = new Dispatcher();
@@ -30,7 +29,7 @@ public class HttpServer {
             try {
               byte[] buffer = new byte[8192];
               int n = socket.getInputStream().read(buffer);
-              String rawRequest = new String(buffer, 0, n);
+              String rawRequest = (n < 0) ? "" : new String(buffer, 0, n);
               HttpRequest request = new HttpRequest(rawRequest);
               System.out.println(Thread.currentThread().getName() + ": ");
               request.info(false);
