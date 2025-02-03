@@ -1,21 +1,18 @@
 package ru.otus.http;
 
-import com.google.gson.Gson;
-import ru.otus.http.application.Product;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 public class Application {
+  private static final Logger logger = LogManager.getLogger(Application.class.getName());
   public static void main(String[] args) {
+    logger.info("Starting.");
     HttpServer server = new HttpServer(8189);
     server.start();
 
-    Product product = new Product(10L, "SGUSHCHENKA");
-    Gson gson = new Gson();
-    String result = gson.toJson(product);
-    System.out.println(result);
 
-    String example = "{\"id\":11,\"name\":\"VARENAYA SGUSHCHENKA\"}";
-    Product product2 = gson.fromJson(example, Product.class);
-    System.out.println(product2.getId());
-    System.out.println(product2.getName());
+
   }
 }

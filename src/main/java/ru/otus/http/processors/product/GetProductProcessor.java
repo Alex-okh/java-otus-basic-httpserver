@@ -1,9 +1,10 @@
-package ru.otus.http.processors;
+package ru.otus.http.processors.product;
 
 import com.google.gson.Gson;
 import ru.otus.http.HttpRequest;
 import ru.otus.http.application.Product;
 import ru.otus.http.application.ProductsService;
+import ru.otus.http.processors.RequestProcessor;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -23,7 +24,7 @@ public class GetProductProcessor implements RequestProcessor {
     String jsonReply ="";
 
     if (request.hasParameter("id")) {
-      Long id = Long.parseLong(request.getParameter("id"));
+      long id = Long.parseLong(request.getParameter("id"));
       Product product = productsService.getProductByID(id);
       jsonReply = gson.toJson(product);
     } else {

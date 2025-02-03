@@ -1,5 +1,7 @@
 package ru.otus.http.processors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.otus.http.BadRequestException;
 import ru.otus.http.HttpRequest;
 
@@ -8,12 +10,16 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 public class CalcProcessor implements RequestProcessor {
+  private static final Logger logger = LogManager.getLogger(CalcProcessor.class.getName());
+
   @Override
   public void process(HttpRequest request, OutputStream output) throws IOException {
     if (!request.hasParameter("a")) {
+      logger.warn("No a parameter received.");
       throw new BadRequestException("VALIDATION_ERROR_MISSING_PARAMETER", "No a parameter received.");
     }
     if (!request.hasParameter("b")) {
+      logger.warn("No b parameter received.");
       throw new BadRequestException("VALIDATION_ERROR_MISSING_PARAMETER", "No b parameter received.");
     }
 
@@ -33,7 +39,6 @@ public class CalcProcessor implements RequestProcessor {
                       </body>
                    </html>
                   """.formatted(result);
-    System.out.println("Sending response: " + response);
     output.write(response.getBytes(StandardCharsets.UTF_8));
   }
 }

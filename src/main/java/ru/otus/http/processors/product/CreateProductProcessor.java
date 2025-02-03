@@ -1,14 +1,14 @@
-package ru.otus.http.processors;
+package ru.otus.http.processors.product;
 
 import com.google.gson.Gson;
 import ru.otus.http.HttpRequest;
 import ru.otus.http.application.Product;
 import ru.otus.http.application.ProductsService;
+import ru.otus.http.processors.RequestProcessor;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 public class CreateProductProcessor implements RequestProcessor {
   ProductsService productsService;
