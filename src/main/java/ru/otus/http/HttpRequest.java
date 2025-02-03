@@ -64,6 +64,7 @@ public class HttpRequest {
     } catch (IllegalArgumentException e) {
       method = null;
       logger.warn("Invalid HTTP method: " + rawRequest);
+
     }
     uri = rawRequest.substring(startIndex + 1, endIndex);
 
@@ -91,9 +92,6 @@ public class HttpRequest {
 
   public void info(boolean showRawRequest) {
     logger.info("method: %s , uri: %s , HEADERS: %s , BODY: %s ".formatted(method, uri, headers, body));
-    if (showRawRequest) {
-      logger.info("rawRequest: " + rawRequest);
-
-    }
+    logger.debug("rawRequest: " + rawRequest);
   }
 }

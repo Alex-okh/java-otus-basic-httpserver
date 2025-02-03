@@ -53,6 +53,7 @@ public class Dispatcher {
 
   public void execute(HttpRequest request, OutputStream output) throws IOException {
     try {
+      if (request.getMethod() == null) throw new BadRequestException("BAD_REQUEST", "Unsupported HTTP method");
       router.getOrDefault(request.getRoutingKey(), new Default404Processor()).process(request, output);
     } catch (BadRequestException e) {
       logger.warn(e);
